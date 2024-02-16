@@ -8,8 +8,15 @@ const AuthLayout = () => {
 				<Navigate to='/' />
 			) : (
 				<>
-					<section className='p-10'>
-						<Outlet />
+					<section className='flex items-center '>
+						<div className='w-1/2'>
+							<Outlet />
+						</div>
+						<img
+							src='assets/images/side-img.svg'
+							alt='logo'
+							className='w-1/2 h-screen object-cover bg-no-repeat hidden xl:block'
+						/>
 					</section>
 				</>
 			)}
