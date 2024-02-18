@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { Toaster } from './components/ui/toaster';
 import './globals.css';
 
 import SigninForm from '@/_auth/forms/SigninForm';
@@ -9,18 +10,21 @@ import RootLayout from '@/_root/RootLayout';
 
 const App = () => {
 	return (
-		<Routes>
-			{/* Public routes */}
-			<Route element={<AuthLayout />}>
-				<Route path='singin' element={<SigninForm />} />
-				<Route path='signup' element={<SignupForm />} />
-			</Route>
+		<>
+			<Routes>
+				{/* Public routes */}
+				<Route element={<AuthLayout />}>
+					<Route path='singin' element={<SigninForm />} />
+					<Route path='signup' element={<SignupForm />} />
+				</Route>
 
-			{/* Private routes */}
-			<Route element={<RootLayout />}>
-				<Route index element={<Home />} />
-			</Route>
-		</Routes>
+				{/* Private routes */}
+				<Route element={<RootLayout />}>
+					<Route index element={<Home />} />
+				</Route>
+			</Routes>
+			<Toaster />
+		</>
 	);
 };
 export default App;

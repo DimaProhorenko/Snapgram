@@ -17,8 +17,10 @@ import { SignupValidationSchema } from '@/lib/validation';
 import Loader from '@/components/shared/Loader';
 import { Link } from 'react-router-dom';
 import { createNewUser } from '@/lib/appwrite/api';
+import { useToast } from '@/components/ui/use-toast';
 
 const SignupForm = () => {
+	const { toast } = useToast();
 	const isLoading = false;
 	const form = useForm<z.infer<typeof SignupValidationSchema>>({
 		resolver: zodResolver(SignupValidationSchema),
@@ -33,6 +35,19 @@ const SignupForm = () => {
 		values: z.infer<typeof SignupValidationSchema>
 	): Promise<void> => {
 		const newUser = await createNewUser(values);
+		console.log(newUser);
+		if (!newUser) {
+			toast({
+				title: 'Signup Failed',
+				description: 'Something went wrong. Please try again...',
+			});
+		}
+
+		toast({
+			title: 'Signup completed',
+			description: 'User has been created',
+		});
+
 		console.log(newUser);
 	};
 	return (
