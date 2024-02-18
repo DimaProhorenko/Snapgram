@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/input';
 import { SignupValidationSchema } from '@/lib/validation';
 import Loader from '@/components/shared/Loader';
 import { Link } from 'react-router-dom';
+import { createNewUser } from '@/lib/appwrite/api';
 
 const SignupForm = () => {
 	const isLoading = false;
@@ -28,8 +29,11 @@ const SignupForm = () => {
 			password: '',
 		},
 	});
-	const onSubmit = (values: z.infer<typeof SignupValidationSchema>): void => {
-		console.log(values);
+	const onSubmit = async (
+		values: z.infer<typeof SignupValidationSchema>
+	): Promise<void> => {
+		const newUser = await createNewUser(values);
+		console.log(newUser);
 	};
 	return (
 		<div className='max-w-sm mx-auto'>
