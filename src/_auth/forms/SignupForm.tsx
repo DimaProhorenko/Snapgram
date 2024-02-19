@@ -63,13 +63,12 @@ const SignupForm = () => {
 
 		if (!session) {
 			toast({
-				title: 'Signup failed',
+				title: 'Session failed',
 				description: 'Something went wrong. Please try again...',
 			});
 		}
 
 		const isUserSignedIn = await checkAuthUser();
-
 		if (isUserSignedIn) {
 			form.reset();
 			navigate(HOME);
