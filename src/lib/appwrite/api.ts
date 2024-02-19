@@ -60,3 +60,38 @@ export const saveUserToDB = async (user: {
 		return err;
 	}
 };
+
+export const signInAccount = async ({
+	email,
+	password,
+}: {
+	email: string;
+	password: string;
+}) => {
+	try {
+		const session = account.createEmailSession(email, password);
+		return session;
+	} catch (err) {
+		console.log(err);
+		return err;
+	}
+};
+
+export const getCurrentAccount = async () => {
+	try {
+		const currentAccount = await account.get();
+
+		if (!currentAccount) {
+			throw new Error('Could not find the account');
+		}
+
+		const currentUser = databases.getDocument(
+			appwriteConfig.databaseId,
+			appwriteConfig.userCollectionId,
+			currentAccount.$id
+		);
+	} catch (err) {
+		console.log(err);
+		return err;
+	}
+};

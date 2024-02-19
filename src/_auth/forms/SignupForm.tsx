@@ -16,12 +16,19 @@ import { Input } from '@/components/ui/input';
 import { SignupValidationSchema } from '@/lib/validation';
 import Loader from '@/components/shared/Loader';
 import { Link } from 'react-router-dom';
-import { createNewUser } from '@/lib/appwrite/api';
 import { useToast } from '@/components/ui/use-toast';
+import {
+	useCreateUserAccountMutation,
+	useSignInAccountMutation,
+} from '@/lib/react-query/queriesAndMutations';
 
 const SignupForm = () => {
 	const { toast } = useToast();
-	const isLoading = false;
+	const { mutateAsync: createNewUser, isLoading } =
+		useCreateUserAccountMutation();
+
+	const { mutateAsync: signInAccount } = useSignInAccountMutation();
+
 	const form = useForm<z.infer<typeof SignupValidationSchema>>({
 		resolver: zodResolver(SignupValidationSchema),
 		defaultValues: {
@@ -31,6 +38,7 @@ const SignupForm = () => {
 			password: '',
 		},
 	});
+
 	const onSubmit = async (
 		values: z.infer<typeof SignupValidationSchema>
 	): Promise<void> => {
@@ -39,6 +47,19 @@ const SignupForm = () => {
 		if (!newUser) {
 			toast({
 				title: 'Signup Failed',
+				description: 'Something went wrong. Please try again...',
+			});
+			return;
+		}
+
+		const session = signInAccount({
+			email: values.email,
+			password: values.password,
+		});
+
+		if (!session) {
+			toast({
+				title: 'Signup failed',
 				description: 'Something went wrong. Please try again...',
 			});
 		}
@@ -50,6 +71,7 @@ const SignupForm = () => {
 
 		console.log(newUser);
 	};
+
 	return (
 		<div className='max-w-sm mx-auto'>
 			<Form {...form}>
