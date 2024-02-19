@@ -26,7 +26,7 @@ import { HOME, SIGNIN } from '@/constants/routes';
 
 const SignupForm = () => {
 	const navigate = useNavigate();
-	const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+	const { checkAuthUser } = useUserContext();
 	const { toast } = useToast();
 	const { mutateAsync: createNewUser, isPending: isLoading } =
 		useCreateUserAccountMutation();
