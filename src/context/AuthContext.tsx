@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { HOME, SIGNUP } from '@/constants/routes';
+import { HOME, SIGNIN, SIGNUP } from '@/constants/routes';
 import { getCurrentUser } from '@/lib/appwrite/api';
 import { IContextType, IUser } from '@/types';
 import {
@@ -70,8 +70,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	useEffect(() => {
 		const cookieFallback = localStorage.getItem('cookieFallback');
 		console.log(cookieFallback);
-		if (cookieFallback === '[]') {
-			navigate(SIGNUP);
+		if (cookieFallback === '[]' || cookieFallback === null) {
+			navigate(SIGNIN);
 		} else {
 			navigate(HOME);
 		}

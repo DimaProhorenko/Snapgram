@@ -6,3 +6,8 @@ export const SignupValidationSchema = z.object({
 	email: z.string().email(),
 	password: z.string().min(6).max(18),
 });
+
+export const SigninValidationSchema = z.object({
+	email: z.string().email(),
+	password: z.string().min(6).max(18),
+});
