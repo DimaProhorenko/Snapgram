@@ -8,8 +8,8 @@ const AuthLayout = () => {
 				<Navigate to='/' />
 			) : (
 				<>
-					<section className='flex items-center justify-center '>
-						<div className='w-1/2'>
+					<section className='flex items-center justify-center'>
+						<div className='xl:w-1/2'>
 							<Outlet />
 						</div>
 						<img

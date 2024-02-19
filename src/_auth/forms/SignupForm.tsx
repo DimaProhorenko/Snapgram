@@ -15,16 +15,20 @@ import { Input } from '@/components/ui/input';
 
 import { SignupValidationSchema } from '@/lib/validation';
 import Loader from '@/components/shared/Loader';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import {
 	useCreateUserAccountMutation,
 	useSignInAccountMutation,
 } from '@/lib/react-query/queriesAndMutations';
+import { useUserContext } from '@/context/AuthContext';
+import { HOME, SIGNIN } from '@/constants/routes';
 
 const SignupForm = () => {
+	const navigate = useNavigate();
+	const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 	const { toast } = useToast();
-	const { mutateAsync: createNewUser, isLoading } =
+	const { mutateAsync: createNewUser, isPending: isLoading } =
 		useCreateUserAccountMutation();
 
 	const { mutateAsync: signInAccount } = useSignInAccountMutation();
@@ -64,12 +68,17 @@ const SignupForm = () => {
 			});
 		}
 
-		toast({
-			title: 'Signup completed',
-			description: 'User has been created',
-		});
+		const isUserSignedIn = await checkAuthUser();
 
-		console.log(newUser);
+		if (isUserSignedIn) {
+			form.reset();
+			navigate(HOME);
+		} else {
+			toast({
+				title: 'Signup failed',
+				description: 'Signup failed. Please try again...',
+			});
+		}
 	};
 
 	return (
@@ -164,7 +173,7 @@ const SignupForm = () => {
 					<p className='text-small-regular text-light-2 text-center mt-2'>
 						Already have an account?{' '}
 						<Link
-							to='/singin'
+							to={SIGNIN}
 							className='text-primary-500 text-small-semibold ml-1'
 						>
 							Signin

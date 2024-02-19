@@ -7,6 +7,7 @@ import SignupForm from '@/_auth/forms/SignupForm';
 import AuthLayout from '@/_auth/AuthLayout';
 import { Home } from '@/_root/pages';
 import RootLayout from '@/_root/RootLayout';
+import { SIGNIN, SIGNUP } from './constants/routes';
 
 const App = () => {
 	return (
@@ -14,8 +15,8 @@ const App = () => {
 			<Routes>
 				{/* Public routes */}
 				<Route element={<AuthLayout />}>
-					<Route path='singin' element={<SigninForm />} />
-					<Route path='signup' element={<SignupForm />} />
+					<Route path={SIGNIN} element={<SigninForm />} />
+					<Route path={SIGNUP} element={<SignupForm />} />
 				</Route>
 
 				{/* Private routes */}
