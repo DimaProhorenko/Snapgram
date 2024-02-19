@@ -83,7 +83,7 @@ const SignupForm = () => {
 	return (
 		<div className='max-w-sm mx-auto'>
 			<Form {...form}>
-				<div className='mb-6'>
+				<div className='mb-6 text-center'>
 					<h2 className='h3-bold md:h2-bold'>Create a new account</h2>
 					<p className='text-light-3 small-medium md:base-regular mt-2'>
 						To use snapgram enter your profile details

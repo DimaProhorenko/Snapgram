@@ -1,7 +1,8 @@
-import { SigninValidationSchema } from '@/lib/validation';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useForm } from 'react-hook-form';
+import { SigninValidationSchema } from '@/lib/validation';
+import { useToast } from '@/components/ui/use-toast';
 
 import {
 	Form,
@@ -13,11 +14,17 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Loader from '@/components/shared/Loader';
-import { Link } from 'react-router-dom';
-import { SIGNUP } from '@/constants/routes';
+import { Link, useNavigate } from 'react-router-dom';
+import { HOME, SIGNUP } from '@/constants/routes';
+import { useUserContext } from '@/context/AuthContext';
+import { useSignInAccountMutation } from '@/lib/react-query/queriesAndMutations';
 
 const SigninForm = () => {
-	const isLoading = false;
+	const { toast } = useToast();
+	const { checkAuthUser } = useUserContext();
+	const { mutateAsync: signInUser, isPending: isLoading } =
+		useSignInAccountMutation();
+	const navigate = useNavigate();
 	const form = useForm<z.infer<typeof SigninValidationSchema>>({
 		resolver: zodResolver(SigninValidationSchema),
 		defaultValues: {
@@ -26,14 +33,35 @@ const SigninForm = () => {
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof SigninValidationSchema>) => {
-		console.log(values);
+	const onSubmit = async ({
+		email,
+		password,
+	}: z.infer<typeof SigninValidationSchema>) => {
+		const session = await signInUser({ email, password });
+
+		if (!session) {
+			toast({
+				title: 'Sign in failed',
+				description: 'Something went wrong. Please try again',
+			});
+		}
+
+		const isUserSignedIn = await checkAuthUser();
+		if (isUserSignedIn) {
+			form.reset();
+			navigate(HOME);
+		} else {
+			toast({
+				title: 'Signup failed',
+				description: 'Signup failed. Please try again...',
+			});
+		}
 	};
 
 	return (
 		<div className='max-w-sm mx-auto'>
 			<Form {...form}>
-				<div className='mb-6'>
+				<div className='mb-6 text-center'>
 					<h2 className='h3-bold md:h2-bold'>
 						Sign into your account
 					</h2>
