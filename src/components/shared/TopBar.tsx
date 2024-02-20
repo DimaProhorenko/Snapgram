@@ -3,10 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useLogoutMutation } from '@/lib/react-query/queriesAndMutations';
 
-import { Logo, ProfileImage } from '.';
+import { Logo } from '.';
 import { Button } from '../ui/button';
 import { PROFILE } from '@/constants/routes';
 import { useUserContext } from '@/context/AuthContext';
+import ProfileImage from '../profile/ProfileImage';
 
 const TopBar = () => {
 	const {
