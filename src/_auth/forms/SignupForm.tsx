@@ -56,7 +56,7 @@ const SignupForm = () => {
 			return;
 		}
 
-		const session = signInAccount({
+		const session = await signInAccount({
 			email: values.email,
 			password: values.password,
 		});
