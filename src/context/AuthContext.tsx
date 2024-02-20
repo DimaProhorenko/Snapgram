@@ -75,7 +75,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			navigate(HOME);
 		}
 		checkAuthUser();
-		console.log('Effect isAuthenticated', isAuthenticated);
 	}, []);
 
 	const value = {

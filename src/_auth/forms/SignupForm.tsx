@@ -2,6 +2,12 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
+import { SignupValidationSchema } from '@/lib/validation';
+import {
+	useCreateUserAccountMutation,
+	useSignInAccountMutation,
+} from '@/lib/react-query/queriesAndMutations';
+
 import { Button } from '@/components/ui/button';
 import {
 	Form,
@@ -12,17 +18,12 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-
-import { SignupValidationSchema } from '@/lib/validation';
 import Loader from '@/components/shared/Loader';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
-import {
-	useCreateUserAccountMutation,
-	useSignInAccountMutation,
-} from '@/lib/react-query/queriesAndMutations';
-import { useUserContext } from '@/context/AuthContext';
+
 import { HOME, SIGNIN } from '@/constants/routes';
+import { useUserContext } from '@/context/AuthContext';
 
 const SignupForm = () => {
 	const navigate = useNavigate();
@@ -47,7 +48,6 @@ const SignupForm = () => {
 		values: z.infer<typeof SignupValidationSchema>
 	): Promise<void> => {
 		const newUser = await createNewUser(values);
-		console.log(newUser);
 		if (!newUser) {
 			toast({
 				title: 'Signup Failed',
