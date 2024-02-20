@@ -3,6 +3,7 @@ import { Logo } from '../../shared';
 import { PROFILE } from '@/constants/routes';
 import Profile from '../../profile/Profile';
 import LeftSidebarNav from './LeftSidebarNav';
+import LogoutButton from '@/components/shared/LogoutButton';
 
 const LeftSidebar = () => {
 	const {
@@ -20,6 +21,7 @@ const LeftSidebar = () => {
 					to={`${PROFILE}/${id}`}
 				/>
 				<LeftSidebarNav />
+				<LogoutButton />
 			</div>
 		</nav>
 	);
