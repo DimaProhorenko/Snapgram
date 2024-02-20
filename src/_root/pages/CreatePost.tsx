@@ -1,3 +1,5 @@
+import CreatePostForm from '@/components/forms/CreatePostForm';
+
 const CreatePost = () => {
 	return (
 		<div className='flex flex-1'>
@@ -13,6 +15,7 @@ const CreatePost = () => {
 						Create Post
 					</h2>
 				</div>
+				<CreatePostForm />
 			</div>
 		</div>
 	);
