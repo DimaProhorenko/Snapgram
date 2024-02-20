@@ -15,4 +15,5 @@ export const SigninValidationSchema = z.object({
 export const CreatePostValidationSchema = z.object({
 	caption: z.string(),
 	file: z.string(),
+	location: z.string(),
 });
