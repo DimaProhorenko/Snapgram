@@ -98,3 +98,12 @@ export const getCurrentUser = async () => {
 		console.log(err);
 	}
 };
+
+export const logoutAccount = async () => {
+	try {
+		const session = await account.deleteSession('current');
+		return session;
+	} catch (err) {
+		console.log(err);
+	}
+};
