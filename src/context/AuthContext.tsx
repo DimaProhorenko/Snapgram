@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { HOME, SIGNIN, SIGNUP } from '@/constants/routes';
+import { HOME, SIGNIN } from '@/constants/routes';
 import { getCurrentUser } from '@/lib/appwrite/api';
 import { IContextType, IUser } from '@/types';
 import {
