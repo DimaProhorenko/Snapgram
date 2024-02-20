@@ -1,7 +1,8 @@
 import { useUserContext } from '@/context/AuthContext';
-import { Logo } from '.';
+import { Logo } from '../../shared';
 import { PROFILE } from '@/constants/routes';
-import Profile from '../profile/Profile';
+import Profile from '../../profile/Profile';
+import LeftSidebarNav from './LeftSidebarNav';
 
 const LeftSidebar = () => {
 	const {
@@ -18,6 +19,7 @@ const LeftSidebar = () => {
 					username={username}
 					to={`${PROFILE}/${id}`}
 				/>
+				<LeftSidebarNav />
 			</div>
 		</nav>
 	);

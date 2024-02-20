@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 import { SIGNIN } from '@/constants/routes';
 import { useUserContext } from '@/context/AuthContext';
-import { BottomBar, LeftSidebar, TopBar } from '@/components/shared';
+import { BottomBar, LeftSidebar, TopBar } from '@/components/layout';
 
 const RootLayout = () => {
 	const { isAuthenticated } = useUserContext();

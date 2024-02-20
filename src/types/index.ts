@@ -1,3 +1,6 @@
+export type Listable = {
+	id: string | number;
+};
 export type INavLink = {
 	imgURL: string;
 	route: string;
