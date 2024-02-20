@@ -9,6 +9,7 @@ export const SAVED = '/saved';
 export const CREATE_POST = '/create-post';
 export const UPDATE_POST = '/update-post';
 export const POST = '/post';
+export const LIKED_POSTS = '/liked';
 
 export const PROFILE_FULL = `${PROFILE}/:id`;
 export const UPDATE_POST_FULL = `${UPDATE_POST}/:id`;

@@ -10,6 +10,7 @@ import {
 	CreatePost,
 	Explore,
 	Home,
+	LikedPosts,
 	Post,
 	Profile,
 	Saved,
@@ -21,6 +22,7 @@ import {
 	ALL_USERS,
 	CREATE_POST,
 	EXPLORE,
+	LIKED_POSTS,
 	POST,
 	PROFILE_FULL,
 	SAVED,
@@ -54,6 +56,7 @@ const App = () => {
 					/>
 					<Route path={UPDATE_POST_FULL} element={<UpdatePost />} />
 					<Route path={POST} element={<Post />} />
+					<Route path={LIKED_POSTS} element={<LikedPosts />} />
 				</Route>
 			</Routes>
 			<Toaster />
