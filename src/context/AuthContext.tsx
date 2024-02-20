@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import { HOME, SIGNIN } from '@/constants/routes';
+import { useNavigate } from 'react-router-dom';
+import { SIGNIN } from '@/constants/routes';
 import { getCurrentUser } from '@/lib/appwrite/api';
 import { IContextType, IUser } from '@/types';
 import {
@@ -9,7 +10,6 @@ import {
 	useState,
 	ReactNode,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export const INITIAL_USER = {
 	id: '',
@@ -73,8 +73,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		const cookieFallback = localStorage.getItem('cookieFallback');
 		if (cookieFallback === '[]' || cookieFallback === null) {
 			navigate(SIGNIN);
-		} else {
-			navigate(HOME);
 		}
 		checkAuthUser();
 	}, []);
