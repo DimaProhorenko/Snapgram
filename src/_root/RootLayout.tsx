@@ -5,11 +5,13 @@ import { useUserContext } from '@/context/AuthContext';
 import { BottomBar, LeftSidebar, TopBar } from '@/components/layout';
 
 const RootLayout = () => {
-	const { isAuthenticated } = useUserContext();
+	// const { isAuthenticated } = useUserContext();
+	// console.log('Rendered');
+	// console.log(isAuthenticated);
 
-	if (!isAuthenticated) {
-		return <Navigate to={SIGNIN} />;
-	}
+	// if (!isAuthenticated) {
+	// 	return <Navigate to={SIGNIN} />;
+	// }
 
 	return (
 		<div className='w-full md:flex'>

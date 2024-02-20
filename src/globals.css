@@ -109,7 +109,7 @@
 	}
 
 	.common-container {
-		@apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
+		@apply flex flex-col flex-1 items-center gap-10 py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
 	}
 
 	/* All Users */
@@ -188,7 +188,7 @@
 
 	/* Bottom bar */
 	.bottom-bar {
-		@apply z-50 flex-between w-full fixed bottom-0 rounded-t-[20px] bg-dark-2 px-5 py-4 md:hidden;
+		@apply z-50 flex-between w-full sticky bottom-0 rounded-t-[20px] bg-dark-2 px-5 py-4 md:hidden;
 	}
 
 	.bottombar-link.active {
@@ -252,7 +252,7 @@
 
 	/* Topbar */
 	.topbar {
-		@apply fixed top-0 z-50 md:hidden bg-dark-2 w-full;
+		@apply sticky top-0 z-50 md:hidden bg-dark-2 w-full;
 	}
 
 	/* User card */

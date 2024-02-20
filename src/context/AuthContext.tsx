@@ -58,6 +58,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				return true;
 			}
 
+			localStorage.setItem('cookieFallback', '[]');
+
 			return false;
 		} catch (err) {
 			console.log(err);
