@@ -14,6 +14,7 @@ const CreatePostForm = () => {
 		defaultValues: {
 			caption: '',
 			file: '',
+			location: '',
 		},
 	});
 
@@ -47,7 +48,7 @@ const CreatePostForm = () => {
 				<FormField
 					control={form.control}
 					name='file'
-					render={({ field }) => (
+					render={() => (
 						<FormItem>
 							<FormLabel className='shad-form_label'>
 								Add your photos
@@ -58,7 +59,7 @@ const CreatePostForm = () => {
 						</FormItem>
 					)}
 				/>
-				{/* <FormField
+				<FormField
 					control={form.control}
 					name='location'
 					render={({ field }) => (
@@ -67,11 +68,15 @@ const CreatePostForm = () => {
 								Add Location
 							</FormLabel>
 							<FormControl>
-								<Input type='text' className='shad-input' />
+								<Input
+									type='text'
+									className='shad-input'
+									{...field}
+								/>
 							</FormControl>
 						</FormItem>
 					)}
-				/> */}
+				/>
 				<Button className='bg-primary-500'>Create Post</Button>
 			</form>
 		</Form>
