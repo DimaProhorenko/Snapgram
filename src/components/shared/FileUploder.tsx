@@ -4,14 +4,15 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 
 const FileUploder = () => {
+	const [file, setFile] = useState([]);
 	const [fileUrl, setFileUrl] = useState('');
 	const onDrop = useCallback((acceptedFiles) => {
-		// Do something with the files
+		setFile(acceptedFiles);
 	}, []);
 	const { getRootProps, getInputProps } = useDropzone({
 		onDrop,
 		accept: {
-			ima,
+			'image/*': ['.png', '.jpg', '.jpeg', '.svg'],
 		},
 	});
 	return (
