@@ -16,4 +16,5 @@ export const CreatePostValidationSchema = z.object({
 	caption: z.string(),
 	file: z.string(),
 	location: z.string(),
+	tags: z.string(),
 });

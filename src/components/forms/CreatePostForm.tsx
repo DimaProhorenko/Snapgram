@@ -15,6 +15,7 @@ const CreatePostForm = () => {
 			caption: '',
 			file: '',
 			location: '',
+			tags: '',
 		},
 	});
 
@@ -77,7 +78,37 @@ const CreatePostForm = () => {
 						</FormItem>
 					)}
 				/>
-				<Button className='bg-primary-500'>Create Post</Button>
+
+				<FormField
+					control={form.control}
+					name='tags'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel className='shad-form_label'>
+								Tags (separated by comma ",")
+							</FormLabel>
+							<FormControl>
+								<Input
+									type='text'
+									className='shad-input'
+									placeholder='Js, React, PHP'
+									{...field}
+								/>
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+				<div className='flex gap-3 items-stretch'>
+					<Button type='button' className='shad-button_danger'>
+						Cancel
+					</Button>
+					<Button
+						type='submit'
+						className='shad-button_primary whitespace-nowrap'
+					>
+						Create Post
+					</Button>
+				</div>
 			</form>
 		</Form>
 	);
