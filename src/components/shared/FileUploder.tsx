@@ -1,11 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 
 const FileUploder = () => {
 	const [file, setFile] = useState([]);
+	console.log(file);
 	const [fileUrl, setFileUrl] = useState('');
+	console.log(setFileUrl);
 	const onDrop = useCallback((acceptedFiles) => {
 		setFile(acceptedFiles);
 	}, []);
