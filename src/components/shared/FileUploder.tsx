@@ -9,8 +9,8 @@ const FileUploder = () => {
 	console.log(file);
 	const [fileUrl, setFileUrl] = useState('');
 	console.log(setFileUrl);
-	const onDrop = useCallback((acceptedFiles) => {
-		setFile(acceptedFiles);
+	const onDrop = useCallback(() => {
+		// setFile(acceptedFiles);
 	}, []);
 	const { getRootProps, getInputProps } = useDropzone({
 		onDrop,
