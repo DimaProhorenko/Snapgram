@@ -37,3 +37,7 @@ export function convertToPlural(count: number, str: string): string {
 	}
 	return `${count} ${str}s`;
 }
+
+export const checkIsLiked = (likeList: string[], userId: string) => {
+	return likeList?.includes(userId);
+};

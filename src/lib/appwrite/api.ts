@@ -210,3 +210,59 @@ export const getRecentPosts = async () => {
 		console.log(err);
 	}
 };
+
+export const likePost = async (postId: string, likesArray: string[]) => {
+	try {
+		const updatedPost = await databases.updateDocument(
+			appwriteConfig.databaseId,
+			appwriteConfig.postsCollectionId,
+			postId,
+			{ likes: likesArray }
+		);
+
+		if (!updatedPost) {
+			throw new Error('Could not like the post');
+		}
+		return updatedPost;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const savePost = async (postId: string, userId: string) => {
+	try {
+		const updatedPost = await databases.createDocument(
+			appwriteConfig.databaseId,
+			appwriteConfig.savesCollectionId,
+			ID.unique(),
+			{
+				user: userId,
+				post: postId,
+			}
+		);
+
+		if (!updatedPost) {
+			throw new Error('Could not save the post');
+		}
+		return updatedPost;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const deleteSavedPost = async (savedRecordId: string) => {
+	try {
+		const statusCode = await databases.deleteDocument(
+			appwriteConfig.databaseId,
+			appwriteConfig.savesCollectionId,
+			savedRecordId
+		);
+
+		if (!statusCode) {
+			throw new Error('Could not delete the post');
+		}
+		return { status: 'ok' };
+	} catch (err) {
+		console.log(err);
+	}
+};

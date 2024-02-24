@@ -4,6 +4,7 @@ import { ProfileCard } from '../profile';
 import { formatDate } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '@/context/AuthContext';
+import { PostStats } from '.';
 
 type PostItemProps = {
 	post: Models.Document;
@@ -79,6 +80,7 @@ const PostItem = ({ post }: PostItemProps) => {
 						className='post-card_img'
 					/>
 				</Link>
+				<PostStats post={post} userId={accountId} />
 			</div>
 		</div>
 	);
