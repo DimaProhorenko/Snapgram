@@ -1,11 +1,16 @@
 import { IconButton } from '.';
 
-const SaveButton = () => {
+type SaveButtonType = {
+	isSaved?: boolean;
+	onClick: () => void;
+};
+
+const SaveButton = ({ isSaved = false, onClick }: SaveButtonType) => {
 	return (
 		<IconButton
-			src='/assets/icons/save.svg'
+			src={isSaved ? '/assets/icons/saved.svg' : '/assets/icons/save.svg'}
 			alt='Save'
-			onClick={() => {}}
+			onClick={onClick}
 		/>
 	);
 };

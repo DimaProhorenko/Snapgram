@@ -19,6 +19,7 @@ export const INITIAL_USER = {
 	imageUrl: '',
 	imageId: '',
 	bio: '',
+	save: [],
 };
 
 const INITIAL_STATE = {

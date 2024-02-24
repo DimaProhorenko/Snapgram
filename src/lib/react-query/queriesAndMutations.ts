@@ -5,6 +5,7 @@ import {
 	createNewUser,
 	createPost,
 	deleteSavedPost,
+	getCurrentUser,
 	getRecentPosts,
 	likePost,
 	logoutAccount,
@@ -29,6 +30,13 @@ export const useSignInAccountMutation = () => {
 export const useLogoutMutation = () => {
 	return useMutation({
 		mutationFn: logoutAccount,
+	});
+};
+
+export const useGetCurrentUser = () => {
+	return useQuery({
+		queryFn: getCurrentUser,
+		queryKey: [QUERY_KEYS.GET_CURRENT_USER],
 	});
 };
 
