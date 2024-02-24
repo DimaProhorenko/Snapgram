@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom';
-import ProfileImage from './ProfileImage';
+import { ProfileCard } from '.';
 
 type ProfileType = {
 	profileImageSrc: string;
@@ -17,25 +16,19 @@ const Profile = ({
 	to,
 }: ProfileType) => {
 	return (
-		<div className='flex gap-3 items-center'>
-			<Link to={to}>
-				<ProfileImage
-					profileImageUrl={profileImageSrc}
-					width={profileImageSize}
-					height={profileImageSize}
-				/>
-			</Link>
-			<div className=''>
-				<Link to={to}>
-					<h4 className='font-bold text-base md:text-lg'>{name}</h4>
-				</Link>
-				<Link to={to}>
-					<p className='text-light-3 text-xs md:text-sm'>
-						@{username}
-					</p>
-				</Link>
-			</div>
-		</div>
+		<ProfileCard>
+			<ProfileCard.Image
+				profileImageUrl={profileImageSrc}
+				alt={`Go to ${name} profile`}
+				to={to}
+				width={profileImageSize}
+				height={profileImageSize}
+			/>
+			<ProfileCard.Content>
+				<ProfileCard.Name to={to}>{name}</ProfileCard.Name>
+				<ProfileCard.Username to={to}>{username}</ProfileCard.Username>
+			</ProfileCard.Content>
+		</ProfileCard>
 	);
 };
 export default Profile;
