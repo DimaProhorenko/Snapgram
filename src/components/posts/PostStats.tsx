@@ -10,9 +10,9 @@ type PostStatsProps = {
 };
 
 const PostStats = ({ post, userId }: PostStatsProps) => {
-	const likesList = post?.liked?.map((user: Models.Document) => user.$id);
+	const likesList = post?.likes?.map((user: Models.Document) => user.$id);
 	const [likes, setLikes] = useState(likesList);
-	// const [isSaved, setIsSaved] = useState(false);
+	console.log(likesList);
 	const { mutateAsync: likePost } = useLikePost();
 
 	const handleLikePost = () => {
