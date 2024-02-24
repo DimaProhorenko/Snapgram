@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Models } from 'appwrite';
 import { LikeButton, SaveButton } from '../shared';
 import { checkIsLiked } from '@/lib/utils';
@@ -22,6 +22,13 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 	const { mutateAsync: savePost } = useSavePost();
 	const { mutateAsync: deleteSavedPost } = useDeleteSavedPost();
 	const { data: currentUser } = useGetCurrentUser();
+	const savedPostRecord = currentUser?.save?.find(
+		(record: Models.Document) => record.post.$id === post.$id
+	);
+
+	useEffect(() => {
+		setIsPostSaved(!!savedPostRecord);
+	}, [savedPostRecord]);
 
 	const handleLikePost = () => {
 		console.log('LIKING');
@@ -41,10 +48,6 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 	};
 
 	const handleSavePost = () => {
-		const savedPostRecord = currentUser?.save?.find(
-			(record: Models.Document) => record.post.$id === post.$id
-		);
-
 		if (savedPostRecord) {
 			setIsPostSaved(false);
 			deleteSavedPost(savedPostRecord.$id);
