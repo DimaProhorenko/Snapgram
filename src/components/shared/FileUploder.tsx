@@ -1,17 +1,28 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 import { useState, useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { FileWithPath, useDropzone } from 'react-dropzone';
 import { Button } from '../ui/button';
 
-const FileUploder = () => {
-	const [file, setFile] = useState([]);
-	console.log(file);
+type FileUploderType = {
+	mediaUrl: string;
+	changeField: (arg: FileWithPath[]) => void;
+};
+
+const FileUploder = ({ mediaUrl, changeField }: FileUploderType) => {
+	const [file, setFile] = useState<File[]>([]);
 	const [fileUrl, setFileUrl] = useState('');
-	console.log(setFileUrl, setFile);
-	const onDrop = useCallback(() => {
-		// setFile(acceptedFiles);
-	}, []);
+
+	console.log(file, mediaUrl);
+
+	const onDrop = useCallback(
+		(acceptedFiles: FileWithPath[]) => {
+			setFile(acceptedFiles);
+			changeField(acceptedFiles);
+			setFileUrl(URL.createObjectURL(acceptedFiles[0]));
+		},
+		[changeField]
+	);
 	const { getRootProps, getInputProps } = useDropzone({
 		onDrop,
 		accept: {
@@ -25,7 +36,18 @@ const FileUploder = () => {
 		>
 			<input {...getInputProps()} className='mb-2 cursor-pointer' />
 			{fileUrl ? (
-				<div>Test 1</div>
+				<>
+					<div className='flex flex-1 justify-center w-full p-5 lg:p-10 '>
+						<img
+							src={fileUrl}
+							alt='image'
+							className='file_uploader-img'
+						/>
+					</div>
+					<p className='file_uploader-label'>
+						Click or drag photo to replace
+					</p>
+				</>
 			) : (
 				<div className='file_uploader-box'>
 					<img

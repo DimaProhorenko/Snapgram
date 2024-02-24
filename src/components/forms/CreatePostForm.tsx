@@ -1,21 +1,35 @@
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Models } from 'appwrite';
+
 import { CreatePostValidationSchema } from '@/lib/validation';
-import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
+
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '../ui/form';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { FileUploder } from '../shared';
 import { Input } from '../ui/input';
 
-const CreatePostForm = () => {
+type PostFormProps = {
+	post?: Models.Document;
+};
+
+const CreatePostForm = ({ post }: PostFormProps) => {
 	const form = useForm<z.infer<typeof CreatePostValidationSchema>>({
 		resolver: zodResolver(CreatePostValidationSchema),
 		defaultValues: {
-			caption: '',
-			file: '',
-			location: '',
-			tags: '',
+			caption: post?.caption || '',
+			file: [],
+			location: post?.location || '',
+			tags: post?.tags?.join(',') || '',
 		},
 	});
 
@@ -43,20 +57,25 @@ const CreatePostForm = () => {
 									className='shad-textarea custom-scrollbar'
 								/>
 							</FormControl>
+							<FormMessage className='shad-form_message' />
 						</FormItem>
 					)}
 				/>
 				<FormField
 					control={form.control}
 					name='file'
-					render={() => (
+					render={({ field }) => (
 						<FormItem>
 							<FormLabel className='shad-form_label'>
 								Add your photos
 							</FormLabel>
 							<FormControl>
-								<FileUploder />
+								<FileUploder
+									changeField={field.onChange}
+									mediaUrl={post?.imageUrl}
+								/>
 							</FormControl>
+							<FormMessage className='shad-form_message' />
 						</FormItem>
 					)}
 				/>
@@ -75,6 +94,7 @@ const CreatePostForm = () => {
 									{...field}
 								/>
 							</FormControl>
+							<FormMessage className='shad-form_message' />
 						</FormItem>
 					)}
 				/>
@@ -95,6 +115,7 @@ const CreatePostForm = () => {
 									{...field}
 								/>
 							</FormControl>
+							<FormMessage className='shad-form_message' />
 						</FormItem>
 					)}
 				/>
