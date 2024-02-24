@@ -192,3 +192,21 @@ export const deleteFile = async (fileId: string) => {
 		console.log(err);
 	}
 };
+
+// Query Posts
+export const getRecentPosts = async () => {
+	try {
+		const posts = await databases.listDocuments(
+			appwriteConfig.databaseId,
+			appwriteConfig.postsCollectionId,
+			[Query.orderDesc('$createdAt'), Query.limit(20)]
+		);
+		if (!posts) {
+			throw new Error('Could not load posts');
+		}
+
+		return posts;
+	} catch (err) {
+		console.log(err);
+	}
+};

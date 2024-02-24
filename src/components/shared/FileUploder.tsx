@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 
 type FileUploderType = {
 	mediaUrl: string;
+	// eslint-disable-next-line no-unused-vars
 	changeField: (arg: FileWithPath[]) => void;
 };
 
