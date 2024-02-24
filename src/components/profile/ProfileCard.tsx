@@ -43,7 +43,7 @@ ProfileCard.Image = function ProfileCardImage({
 	height = 28,
 }: ProfileImageProps) {
 	return (
-		<Link to={to}>
+		<Link to={to} className='flex-shrink-0 block'>
 			<img
 				src={profileImageUrl || 'assets/images/profile-placeholder.svg'}
 				alt={alt}
