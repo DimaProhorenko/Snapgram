@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 import { useState, useCallback } from 'react';
 import { FileWithPath, useDropzone } from 'react-dropzone';
 import { Button } from '../ui/button';

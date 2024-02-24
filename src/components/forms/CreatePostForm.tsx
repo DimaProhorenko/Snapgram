@@ -1,9 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Models } from 'appwrite';
 
 import { CreatePostValidationSchema } from '@/lib/validation';
+import { useCreatePost } from '@/lib/react-query/queriesAndMutations';
+import { useUserContext } from '@/context/AuthContext';
 
 import {
 	Form,
@@ -17,12 +20,18 @@ import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { FileUploder } from '../shared';
 import { Input } from '../ui/input';
+import { useToast } from '../ui/use-toast';
+import { HOME } from '@/constants/routes';
 
 type PostFormProps = {
 	post?: Models.Document;
 };
 
 const CreatePostForm = ({ post }: PostFormProps) => {
+	const { mutateAsync: createPost } = useCreatePost();
+	const { user } = useUserContext();
+	const { toast } = useToast();
+	const navigate = useNavigate();
 	const form = useForm<z.infer<typeof CreatePostValidationSchema>>({
 		resolver: zodResolver(CreatePostValidationSchema),
 		defaultValues: {
@@ -33,8 +42,22 @@ const CreatePostForm = ({ post }: PostFormProps) => {
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof CreatePostValidationSchema>) => {
-		console.log(values);
+	const onSubmit = async (
+		values: z.infer<typeof CreatePostValidationSchema>
+	) => {
+		const post = await createPost({
+			...values,
+			userId: user.id,
+		});
+
+		if (!post) {
+			toast({
+				title: 'Something went wrong',
+				description: 'Post was not created. Please try again...',
+			});
+		} else {
+			navigate(HOME);
+		}
 	};
 
 	return (
