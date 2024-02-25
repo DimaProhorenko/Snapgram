@@ -10,9 +10,9 @@ type FileUploderType = {
 
 const FileUploder = ({ mediaUrl, changeField }: FileUploderType) => {
 	const [file, setFile] = useState<File[]>([]);
-	const [fileUrl, setFileUrl] = useState('');
+	const [fileUrl, setFileUrl] = useState(mediaUrl);
 
-	console.log(file, mediaUrl);
+	console.log(file);
 
 	const onDrop = useCallback(
 		(acceptedFiles: FileWithPath[]) => {
@@ -50,7 +50,7 @@ const FileUploder = ({ mediaUrl, changeField }: FileUploderType) => {
 			) : (
 				<div className='file_uploader-box'>
 					<img
-						src='assets/icons/file-upload.svg'
+						src='/assets/icons/file-upload.svg'
 						alt='upload'
 						width={96}
 						height={77}

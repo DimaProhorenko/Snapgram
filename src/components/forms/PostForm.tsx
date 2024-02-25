@@ -5,7 +5,10 @@ import { useForm } from 'react-hook-form';
 import { Models } from 'appwrite';
 
 import { CreatePostValidationSchema } from '@/lib/validation';
-import { useCreatePost } from '@/lib/react-query/queriesAndMutations';
+import {
+	useCreatePost,
+	useUpdatePost,
+} from '@/lib/react-query/queriesAndMutations';
 import { useUserContext } from '@/context/AuthContext';
 
 import {
@@ -21,14 +24,16 @@ import { Button } from '../ui/button';
 import { FileUploder } from '../shared';
 import { Input } from '../ui/input';
 import { useToast } from '../ui/use-toast';
-import { HOME } from '@/constants/routes';
+import { HOME, POST } from '@/constants/routes';
 
 type PostFormProps = {
 	post?: Models.Document;
+	action?: 'Create' | 'Update';
 };
 
-const CreatePostForm = ({ post }: PostFormProps) => {
+const PostForm = ({ post, action = 'Create' }: PostFormProps) => {
 	const { mutateAsync: createPost } = useCreatePost();
+	const { mutateAsync: updatePost } = useUpdatePost();
 	const { user } = useUserContext();
 	const { toast } = useToast();
 	const navigate = useNavigate();
@@ -45,12 +50,28 @@ const CreatePostForm = ({ post }: PostFormProps) => {
 	const onSubmit = async (
 		values: z.infer<typeof CreatePostValidationSchema>
 	) => {
-		const post = await createPost({
+		if (post && action === 'Update') {
+			const updatedPost = await updatePost({
+				...values,
+				postId: post.$id,
+				imageId: post.imageId,
+				imageUrl: post.imageUrl,
+			});
+
+			if (!updatedPost) {
+				return toast({
+					title: 'Please try again',
+				});
+			}
+			return navigate(`${POST}/${post.$id}`);
+		}
+
+		const newPost = await createPost({
 			...values,
 			userId: user.id,
 		});
 
-		if (!post) {
+		if (!newPost) {
 			toast({
 				title: 'Something went wrong',
 				description: 'Post was not created. Please try again...',
@@ -150,11 +171,11 @@ const CreatePostForm = ({ post }: PostFormProps) => {
 						type='submit'
 						className='shad-button_primary whitespace-nowrap'
 					>
-						Create Post
+						{action === 'Create' ? 'Create Post' : 'Update Post'}
 					</Button>
 				</div>
 			</form>
 		</Form>
 	);
 };
-export default CreatePostForm;
+export default PostForm;
