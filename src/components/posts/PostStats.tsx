@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Models } from 'appwrite';
-import { LikeButton, SaveButton } from '../shared';
+import { LikeButton, Loader, SaveButton } from '../shared';
 import { checkIsLiked } from '@/lib/utils';
 import {
 	useDeleteSavedPost,
@@ -19,8 +19,9 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 	const [likes, setLikes] = useState(likesList);
 	const [isPostSaved, setIsPostSaved] = useState(false);
 	const { mutateAsync: likePost } = useLikePost();
-	const { mutateAsync: savePost } = useSavePost();
-	const { mutateAsync: deleteSavedPost } = useDeleteSavedPost();
+	const { mutateAsync: savePost, isPending: isSavingPost } = useSavePost();
+	const { mutateAsync: deleteSavedPost, isPending: isDeletingSavedPost } =
+		useDeleteSavedPost();
 	const { data: currentUser } = useGetCurrentUser();
 	const savedPostRecord = currentUser?.save?.find(
 		(record: Models.Document) => record.post.$id === post.$id
@@ -65,7 +66,16 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 				count={likes?.length}
 				onClick={handleLikePost}
 			/>
-			<SaveButton isSaved={isPostSaved} onClick={handleSavePost} />
+			<div className='flex'>
+				{isSavingPost || isDeletingSavedPost ? (
+					<Loader />
+				) : (
+					<SaveButton
+						isSaved={isPostSaved}
+						onClick={handleSavePost}
+					/>
+				)}
+			</div>
 		</div>
 	);
 };
