@@ -10,7 +10,7 @@ import {
 } from '@/lib/react-query/queriesAndMutations';
 
 type PostStatsProps = {
-	post: Models.Document;
+	post?: Models.Document;
 	userId: string;
 };
 
@@ -24,7 +24,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 		useDeleteSavedPost();
 	const { data: currentUser } = useGetCurrentUser();
 	const savedPostRecord = currentUser?.save?.find(
-		(record: Models.Document) => record.post.$id === post.$id
+		(record: Models.Document) => record.post.$id === post?.$id
 	);
 
 	useEffect(() => {
@@ -32,31 +32,34 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 	}, [savedPostRecord]);
 
 	const handleLikePost = () => {
-		console.log('LIKING');
-		let newLikes = [...(likes || [])];
-		console.log('newLikes before', newLikes);
+		if (post) {
+			let newLikes = [...(likes || [])];
+			console.log('newLikes before', newLikes);
 
-		const hasLiked = newLikes.includes(userId);
+			const hasLiked = newLikes.includes(userId);
 
-		if (hasLiked) {
-			newLikes = newLikes.filter((id: string) => id !== userId);
-		} else {
-			newLikes.push(userId);
+			if (hasLiked) {
+				newLikes = newLikes.filter((id: string) => id !== userId);
+			} else {
+				newLikes.push(userId);
+			}
+			console.log('newLikesAfter', newLikes);
+			setLikes(newLikes);
+			likePost({ postId: post?.$id, likesArr: newLikes });
 		}
-		console.log('newLikesAfter', newLikes);
-		setLikes(newLikes);
-		likePost({ postId: post.$id, likesArr: newLikes });
 	};
 
 	const handleSavePost = () => {
-		if (savedPostRecord) {
-			setIsPostSaved(false);
-			deleteSavedPost(savedPostRecord.$id);
-			return;
-		}
+		if (post) {
+			if (savedPostRecord) {
+				setIsPostSaved(false);
+				deleteSavedPost(savedPostRecord.$id);
+				return;
+			}
 
-		savePost({ postId: post.$id, userId });
-		setIsPostSaved(true);
+			savePost({ postId: post.$id, userId });
+			setIsPostSaved(true);
+		}
 	};
 
 	return (
