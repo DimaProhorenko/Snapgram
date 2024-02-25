@@ -12,7 +12,7 @@ const Logo = ({ width = 140, height = 36 }: LogoType) => {
 		<div>
 			<Link to={HOME}>
 				<img
-					src='assets/images/logo.svg'
+					src='/assets/images/logo.svg'
 					alt='Snapgram'
 					width={width}
 					height={height}

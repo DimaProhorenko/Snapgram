@@ -21,7 +21,7 @@ import {
 } from '../ui/form';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
-import { FileUploder } from '../shared';
+import { FileUploder, Loader } from '../shared';
 import { Input } from '../ui/input';
 import { useToast } from '../ui/use-toast';
 import { HOME, POST } from '@/constants/routes';
@@ -32,8 +32,10 @@ type PostFormProps = {
 };
 
 const PostForm = ({ post, action = 'Create' }: PostFormProps) => {
-	const { mutateAsync: createPost } = useCreatePost();
-	const { mutateAsync: updatePost } = useUpdatePost();
+	const { mutateAsync: createPost, isPending: isPostCreating } =
+		useCreatePost();
+	const { mutateAsync: updatePost, isPending: isPostUpdating } =
+		useUpdatePost();
 	const { user } = useUserContext();
 	const { toast } = useToast();
 	const navigate = useNavigate();
@@ -170,8 +172,13 @@ const PostForm = ({ post, action = 'Create' }: PostFormProps) => {
 					<Button
 						type='submit'
 						className='shad-button_primary whitespace-nowrap'
+						disabled={isPostCreating || isPostUpdating}
 					>
-						{action === 'Create' ? 'Create Post' : 'Update Post'}
+						{isPostCreating || isPostUpdating ? (
+							<Loader />
+						) : (
+							`${action} Post`
+						)}
 					</Button>
 				</div>
 			</form>
