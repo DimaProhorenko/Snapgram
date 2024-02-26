@@ -7,6 +7,7 @@ import {
 } from '@/lib/react-query/queriesAndMutations';
 import useDebounce from '@/hooks/useDebounce';
 import { GridPostsList } from '@/components/posts';
+import { SearchResult } from '@/components/Search';
 
 const Explore = () => {
 	const [searchValue, setSearchValue] = useState('');
@@ -62,9 +63,7 @@ const Explore = () => {
 						posts && <GridPostsList posts={posts} />}
 					{!isSearchingPosts &&
 						shouldShowSearchResults &&
-						searchedPosts && (
-							<GridPostsList posts={searchedPosts} />
-						)}
+						searchedPosts && <SearchResult posts={searchedPosts} />}
 				</div>
 			</div>
 		</div>
