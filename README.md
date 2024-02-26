@@ -16,9 +16,11 @@
   <br />    
   <br />    
   <br />    
+  <h1>
+    <a href='https://dima-snapgram.netlify.app/'>Snapgram</a> -
+    A Social Media Application
+  </h1>
 </div>
-
-# [Snapgram]() - A Social Media Application
 
 <br />
 
