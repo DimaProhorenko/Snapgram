@@ -10,7 +10,7 @@ const LeftSidebar = () => {
 		user: { id, imageUrl, name, username },
 	} = useUserContext();
 	return (
-		<nav className='leftsidebar'>
+		<nav className='leftsidebar overflow-y-auto h-screen custom-scrollbar'>
 			<div className='flex flex-col gap-11'>
 				<Logo width={170} />
 				<Profile

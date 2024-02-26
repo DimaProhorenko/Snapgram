@@ -4,10 +4,10 @@ import { BottomBar, LeftSidebar, TopBar } from '@/components/layout';
 
 const RootLayout = () => {
 	return (
-		<div className='w-full md:flex'>
+		<div className='w-full md:flex container'>
 			<TopBar />
 			<LeftSidebar />
-			<section className='flex flex-1 min-h-screen'>
+			<section className='flex flex-1'>
 				<Outlet />
 			</section>
 			<BottomBar />

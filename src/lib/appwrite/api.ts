@@ -408,3 +408,20 @@ export const searchPostByCaption = async (searchTerm: string) => {
 		console.log(err);
 	}
 };
+
+export const getSavedPosts = async (userId: string) => {
+	try {
+		const posts = await databases.listDocuments(
+			appwriteConfig.databaseId,
+			appwriteConfig.savesCollectionId,
+			[Query.equal('user', userId)]
+		);
+
+		if (!posts) {
+			throw new Error('Could not fetch posts');
+		}
+		return posts;
+	} catch (err) {
+		console.log(err);
+	}
+};

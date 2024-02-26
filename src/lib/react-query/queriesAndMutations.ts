@@ -15,6 +15,7 @@ import {
 	getInfinitePosts,
 	getPostById,
 	getRecentPosts,
+	getSavedPosts,
 	likePost,
 	logoutAccount,
 	savePost,
@@ -218,5 +219,12 @@ export const useSearchPosts = (searchTerm: string) => {
 		queryKey: [QUERY_KEYS.GET_POSTS, searchTerm],
 		queryFn: () => searchPostByCaption(searchTerm),
 		enabled: !!searchTerm,
+	});
+};
+
+export const useGetSavedPosts = (userId: string) => {
+	return useQuery({
+		queryKey: [QUERY_KEYS.GET_SAVED_POSTS],
+		queryFn: () => getSavedPosts(userId),
 	});
 };
