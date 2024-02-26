@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 type ProfileCardProps = {
 	children: React.ReactNode;
+	col?: boolean;
 	className?: string;
 };
 
@@ -31,12 +32,20 @@ type ProfileCardUsernameProps = {
 	children: React.ReactNode;
 	to: string;
 	className?: string;
+	size?: 'default' | 'sm';
 };
 
-const ProfileCard = ({ children, className = '' }: ProfileCardProps) => {
-	return (
-		<div className={`flex gap-3 items-center ${className}`}>{children}</div>
-	);
+const ProfileCard = ({
+	children,
+	col = false,
+	className = '',
+}: ProfileCardProps) => {
+	const classes = clsx('flex gap-3', {
+		'flex-col': col,
+		'items-center ': !col,
+		[className]: className,
+	});
+	return <div className={classes}>{children}</div>;
 };
 
 ProfileCard.Image = function ProfileCardImage({
@@ -88,13 +97,17 @@ ProfileCard.Name = function ProfileCardName({
 ProfileCard.Username = function ProfileCardUsername({
 	children,
 	to,
+	size = 'default',
 	className = '',
 }: ProfileCardUsernameProps) {
+	const classes = clsx('text-light-3', {
+		'text-xs md:text-sm': size === 'default',
+		'text-[12px]': size === 'sm',
+		[className]: className,
+	});
 	return (
 		<Link to={to}>
-			<p className={`text-light-3 text-xs md:text-sm ${className}`}>
-				@{children}
-			</p>
+			<p className={classes}>@{children}</p>
 		</Link>
 	);
 };

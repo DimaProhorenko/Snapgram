@@ -4,6 +4,43 @@ import { INewPost, INewUser, IUpdatePost } from '@/types';
 import { account, appwriteConfig, databases, storage } from './config';
 import { avatar } from './config';
 
+// FILE manipulations (Create, update, delete)
+export const uploadFile = async (file: File) => {
+	try {
+		const uploadedFile = await storage.createFile(
+			appwriteConfig.storageId,
+			ID.unique(),
+			file
+		);
+		return uploadedFile;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getFilePreview = async (fileId: string) => {
+	try {
+		const fileUrl = await storage.getFilePreview(
+			appwriteConfig.storageId,
+			fileId
+		);
+		return fileUrl;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const deleteFile = async (fileId: string) => {
+	try {
+		await storage.deleteFile(appwriteConfig.storageId, fileId);
+		return { status: 'ok' };
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+// AUTH
+
 export const createNewUser = async ({
 	name,
 	username,
@@ -76,6 +113,16 @@ export const signInAccount = async ({
 	}
 };
 
+export const logoutAccount = async () => {
+	try {
+		const session = await account.deleteSession('current');
+		return session;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+// USERS
 export const getCurrentUser = async () => {
 	try {
 		const currentAccount = await account.get();
@@ -99,15 +146,24 @@ export const getCurrentUser = async () => {
 	}
 };
 
-export const logoutAccount = async () => {
+export const getAllUsers = async () => {
 	try {
-		const session = await account.deleteSession('current');
-		return session;
+		const users = await databases.listDocuments(
+			appwriteConfig.databaseId,
+			appwriteConfig.userCollectionId
+		);
+
+		if (!users) {
+			throw new Error('Could not fetch the users');
+		}
+
+		return users;
 	} catch (err) {
 		console.log(err);
 	}
 };
 
+// POSTS
 export const createPost = async ({
 	userId,
 	caption,
@@ -154,40 +210,6 @@ export const createPost = async ({
 		}
 
 		return newPost;
-	} catch (err) {
-		console.log(err);
-	}
-};
-
-export const uploadFile = async (file: File) => {
-	try {
-		const uploadedFile = await storage.createFile(
-			appwriteConfig.storageId,
-			ID.unique(),
-			file
-		);
-		return uploadedFile;
-	} catch (err) {
-		console.log(err);
-	}
-};
-
-export const getFilePreview = async (fileId: string) => {
-	try {
-		const fileUrl = await storage.getFilePreview(
-			appwriteConfig.storageId,
-			fileId
-		);
-		return fileUrl;
-	} catch (err) {
-		console.log(err);
-	}
-};
-
-export const deleteFile = async (fileId: string) => {
-	try {
-		await storage.deleteFile(appwriteConfig.storageId, fileId);
-		return { status: 'ok' };
 	} catch (err) {
 		console.log(err);
 	}

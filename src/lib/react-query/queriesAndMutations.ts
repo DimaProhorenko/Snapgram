@@ -11,6 +11,7 @@ import {
 	createPost,
 	deletePost,
 	deleteSavedPost,
+	getAllUsers,
 	getCurrentUser,
 	getInfinitePosts,
 	getPostById,
@@ -25,6 +26,7 @@ import {
 } from '../appwrite/api';
 import { QUERY_KEYS } from './queryKeys';
 
+// AUTH
 export const useCreateUserAccountMutation = () => {
 	return useMutation({
 		mutationFn: (user: INewUser) => createNewUser(user),
@@ -44,6 +46,7 @@ export const useLogoutMutation = () => {
 	});
 };
 
+// USERS
 export const useGetCurrentUser = () => {
 	return useQuery({
 		queryFn: getCurrentUser,
@@ -51,6 +54,14 @@ export const useGetCurrentUser = () => {
 	});
 };
 
+export const useGetAllUsers = () => {
+	return useQuery({
+		queryKey: [],
+		queryFn: getAllUsers,
+	});
+};
+
+// POSTS
 export const useCreatePost = () => {
 	const queryClient = useQueryClient();
 
