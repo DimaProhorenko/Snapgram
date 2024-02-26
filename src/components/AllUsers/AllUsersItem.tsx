@@ -1,5 +1,5 @@
 import { Models } from 'appwrite';
-import { Card, CardHeader, CardContent, CardFooter } from '../ui/card';
+import { Card, CardHeader } from '../ui/card';
 import { ProfileCard } from '../profile';
 import { PROFILE } from '@/constants/routes';
 
