@@ -199,11 +199,14 @@ export const useGetInfinitePosts = () => {
 		queryKey: [QUERY_KEYS.GET_POSTS],
 		queryFn: getInfinitePosts,
 		getNextPageParam: (lastPage) => {
-			if (lastPage && lastPage.documents.length === 0) return null;
+			// If there's no data, there are no more pages.
+			if (lastPage && lastPage.documents.length === 0) {
+				return null;
+			}
 
+			// Use the $id of the last document as the cursor.
 			const lastId =
-				lastPage?.documents[lastPage.documents.length - 1].$id;
-
+				lastPage?.documents[lastPage?.documents?.length - 1].$id;
 			return lastId;
 		},
 		initialPageParam: '',

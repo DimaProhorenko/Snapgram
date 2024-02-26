@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { FilterButton, Loader } from '@/components/shared';
 import {
@@ -8,10 +8,12 @@ import {
 import useDebounce from '@/hooks/useDebounce';
 import { GridPostsList } from '@/components/posts';
 import { SearchResult } from '@/components/Search';
+import { useInView } from 'react-intersection-observer';
 
 const Explore = () => {
 	const [searchValue, setSearchValue] = useState('');
 	const debouncedValue = useDebounce(searchValue, 500);
+	const { ref, inView } = useInView();
 
 	const {
 		data,
@@ -27,6 +29,14 @@ const Explore = () => {
 
 	const shouldShowSearchResults = searchValue !== '';
 	const shouldShowFeaturedResults = !searchValue;
+	console.log('hasNextPage', hasNextPage);
+
+	useEffect(() => {
+		if (inView && !searchValue) {
+			console.log('MUST REFETCH');
+			fetchNextPage();
+		}
+	}, [inView, searchValue, isInfiniteLoading, fetchNextPage]);
 
 	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchValue(e.target.value);
@@ -59,13 +69,19 @@ const Explore = () => {
 				<div>
 					{(isInfiniteLoading || isSearchingPosts) && <Loader />}
 					{!isInfiniteLoading &&
-						!shouldShowSearchResults &&
+						shouldShowFeaturedResults &&
 						posts && <GridPostsList posts={posts} />}
 					{!isSearchingPosts &&
 						shouldShowSearchResults &&
 						searchedPosts && <SearchResult posts={searchedPosts} />}
 				</div>
 			</div>
+
+			{hasNextPage && !searchValue && (
+				<div ref={ref} className='mt-10'>
+					<Loader />
+				</div>
+			)}
 		</div>
 	);
 };
