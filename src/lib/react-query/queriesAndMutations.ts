@@ -7,6 +7,7 @@ import {
 	deletePost,
 	deleteSavedPost,
 	getCurrentUser,
+	getInfinitePosts,
 	getPostById,
 	getRecentPosts,
 	likePost,
@@ -184,5 +185,12 @@ export const useDeletePost = () => {
 				queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
 			});
 		},
+	});
+};
+
+export const useGetInfinitePosts = (pageParams: number) => {
+	return useQuery({
+		queryKey: [QUERY_KEYS.GET_POSTS],
+		queryFn: () => getInfinitePosts({ pageParams }),
 	});
 };

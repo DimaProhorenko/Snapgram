@@ -362,3 +362,31 @@ export const deletePost = async (postId: string, imageId: string) => {
 		console.log(err);
 	}
 };
+
+export const getInfinitePosts = async ({
+	pageParams,
+}: {
+	pageParams: number;
+}) => {
+	const queries = [Query.orderDesc('$updatedAt'), Query.limit(10)];
+
+	if (pageParams) {
+		queries.push(Query.cursorAfter(pageParams.toString()));
+	}
+
+	try {
+		const posts = await databases.listDocuments(
+			appwriteConfig.databaseId,
+			appwriteConfig.postsCollectionId,
+			queries
+		);
+
+		if (!posts) {
+			throw new Error('Could not load the posts');
+		}
+
+		return posts;
+	} catch (err) {
+		console.log(err);
+	}
+};
