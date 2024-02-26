@@ -5,15 +5,19 @@ import {
 	useGetInfinitePosts,
 	useSearchPosts,
 } from '@/lib/react-query/queriesAndMutations';
-import PostsList from '@/components/posts/PostsList';
 import useDebounce from '@/hooks/useDebounce';
+import { GridPostsList } from '@/components/posts';
 
 const Explore = () => {
 	const [searchValue, setSearchValue] = useState('');
-	const debouncedValue = useDebounce(searchValue, 500);
+	// const debouncedValue = useDebounce(searchValue, 500);
 
-	const { data, fetchNextPage, hasNextPage, isPending } =
-		useGetInfinitePosts();
+	const {
+		data,
+		fetchNextPage,
+		hasNextPage,
+		isPending: isInfiniteLoading,
+	} = useGetInfinitePosts();
 	// const { data: searchedPosts } = useSearchPosts(debouncedValue);
 	// console.log(searchedPosts);
 
@@ -44,14 +48,16 @@ const Explore = () => {
 						className='explore-search'
 					/>
 				</div>
-				<div className='flex justify-between items-center w-full max-w-5xl mt-16 mb-7 sticky top-14 bg-dark-2 md:top-0 py-2'>
+				<div className='flex justify-between items-center w-full max-w-5xl mt-16 mb-7 sticky top-14 bg-dark-2 md:top-0 z-30 py-2'>
 					<h3 className='body-bold md:h3-bold'>Popular Today</h3>
 					<FilterButton />
 				</div>
 
 				<div>
-					{isPending && <Loader />}
-					{!isPending && posts && <PostsList posts={posts} />}
+					{isInfiniteLoading && <Loader />}
+					{!isInfiniteLoading && posts && (
+						<GridPostsList posts={posts} />
+					)}
 				</div>
 			</div>
 		</div>

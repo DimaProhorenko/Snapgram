@@ -12,9 +12,10 @@ import {
 type PostStatsProps = {
 	post?: Models.Document;
 	userId: string;
+	iconSize?: number;
 };
 
-const PostStats = ({ post, userId }: PostStatsProps) => {
+const PostStats = ({ post, userId, iconSize = 24 }: PostStatsProps) => {
 	const likesList = post?.likes?.map((user: Models.Document) => user.$id);
 	const [likes, setLikes] = useState(likesList);
 	const [isPostSaved, setIsPostSaved] = useState(false);
@@ -68,6 +69,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 				isLiked={checkIsLiked(likes, userId)}
 				count={likes?.length}
 				onClick={handleLikePost}
+				size={iconSize}
 			/>
 			<div className='flex'>
 				{isSavingPost || isDeletingSavedPost ? (
@@ -76,6 +78,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 					<SaveButton
 						isSaved={isPostSaved}
 						onClick={handleSavePost}
+						size={iconSize}
 					/>
 				)}
 			</div>

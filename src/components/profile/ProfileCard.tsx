@@ -1,7 +1,9 @@
+import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
 type ProfileCardProps = {
 	children: React.ReactNode;
+	className?: string;
 };
 
 type ProfileImageProps = {
@@ -22,6 +24,7 @@ type ProfileCardNameProps = {
 	children: React.ReactNode;
 	to: string;
 	className?: string;
+	size?: 'default' | 'sm';
 };
 
 type ProfileCardUsernameProps = {
@@ -30,8 +33,10 @@ type ProfileCardUsernameProps = {
 	className?: string;
 };
 
-const ProfileCard = ({ children }: ProfileCardProps) => {
-	return <div className='flex gap-3 items-center'>{children}</div>;
+const ProfileCard = ({ children, className = '' }: ProfileCardProps) => {
+	return (
+		<div className={`flex gap-3 items-center ${className}`}>{children}</div>
+	);
 };
 
 ProfileCard.Image = function ProfileCardImage({
@@ -65,13 +70,17 @@ ProfileCard.Content = function ProfileCardContent({
 ProfileCard.Name = function ProfileCardName({
 	children,
 	to,
+	size = 'default',
 	className = '',
 }: ProfileCardNameProps) {
+	const classes = clsx({
+		'text-sm md:text-xs font-medium': size === 'sm',
+		'text-base md:text-lg font-bold': size === 'default',
+		[className]: className,
+	});
 	return (
 		<Link to={to}>
-			<h4 className={`font-bold text-base md:text-lg ${className}`}>
-				{children}
-			</h4>
+			<h4 className={classes}>{children}</h4>
 		</Link>
 	);
 };
