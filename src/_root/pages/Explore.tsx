@@ -1,13 +1,23 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { FilterButton, Loader } from '@/components/shared';
-import { useGetInfinitePosts } from '@/lib/react-query/queriesAndMutations';
+import {
+	useGetInfinitePosts,
+	useSearchPosts,
+} from '@/lib/react-query/queriesAndMutations';
 import PostsList from '@/components/posts/PostsList';
+import useDebounce from '@/hooks/useDebounce';
 
 const Explore = () => {
 	const [searchValue, setSearchValue] = useState('');
-	const [page, setPage] = useState(0);
-	const { data: posts, isPending } = useGetInfinitePosts(page);
+	const debouncedValue = useDebounce(searchValue, 500);
+
+	const { data, fetchNextPage, hasNextPage, isPending } =
+		useGetInfinitePosts();
+	// const { data: searchedPosts } = useSearchPosts(debouncedValue);
+	// console.log(searchedPosts);
+
+	const posts = data?.pages[0]?.documents;
 
 	console.log(posts);
 
@@ -41,9 +51,7 @@ const Explore = () => {
 
 				<div>
 					{isPending && <Loader />}
-					{!isPending && posts && (
-						<PostsList posts={posts.documents} />
-					)}
+					{!isPending && posts && <PostsList posts={posts} />}
 				</div>
 			</div>
 		</div>

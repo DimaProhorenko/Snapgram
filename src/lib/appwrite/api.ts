@@ -364,14 +364,14 @@ export const deletePost = async (postId: string, imageId: string) => {
 };
 
 export const getInfinitePosts = async ({
-	pageParams,
+	pageParam,
 }: {
-	pageParams: number;
+	pageParam: string;
 }) => {
 	const queries = [Query.orderDesc('$updatedAt'), Query.limit(10)];
 
-	if (pageParams) {
-		queries.push(Query.cursorAfter(pageParams.toString()));
+	if (pageParam) {
+		queries.push(Query.cursorAfter(pageParam));
 	}
 
 	try {
@@ -385,6 +385,23 @@ export const getInfinitePosts = async ({
 			throw new Error('Could not load the posts');
 		}
 
+		return posts;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const searchPostByCaption = async (searchTerm: string) => {
+	try {
+		const posts = await databases.listDocuments(
+			appwriteConfig.databaseId,
+			appwriteConfig.postsCollectionId,
+			[Query.search('caption', searchTerm)]
+		);
+
+		if (!posts) {
+			throw new Error('Could not fetch the posts');
+		}
 		return posts;
 	} catch (err) {
 		console.log(err);
