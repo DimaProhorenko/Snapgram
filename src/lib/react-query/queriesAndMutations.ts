@@ -212,7 +212,7 @@ export const useGetInfinitePosts = () => {
 
 export const useSearchPosts = (searchTerm: string) => {
 	return useQuery({
-		queryKey: [QUERY_KEYS.GET_POSTS],
+		queryKey: [QUERY_KEYS.GET_POSTS, searchTerm],
 		queryFn: () => searchPostByCaption(searchTerm),
 		enabled: !!searchTerm,
 	});

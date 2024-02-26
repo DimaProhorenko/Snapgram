@@ -19,10 +19,10 @@ const GridPostItem = ({
 }: GridPostItemProps) => {
 	return (
 		<li className='relative min-w-64 h-80'>
-			<Link to={`${POST}/${post.$id}`} className='grid-post_link'>
+			<Link to={`${POST}/${post?.$id}`} className='grid-post_link'>
 				<img
-					src={post.imageUrl}
-					alt={post.caption}
+					src={post?.imageUrl}
+					alt={post?.caption}
 					className='w-full h-full object-cover'
 				/>
 			</Link>
@@ -30,17 +30,17 @@ const GridPostItem = ({
 				{showUser && (
 					<ProfileCard className='w-full'>
 						<ProfileCard.Image
-							profileImageUrl={post.creator.imageUrl}
+							profileImageUrl={post?.creator?.imageUrl}
 							alt='creator'
 							width={24}
 							height={24}
-							to={`${PROFILE}/${post.creator.$id}`}
+							to={`${PROFILE}/${post?.creator?.$id}`}
 						/>
 						<ProfileCard.Name
-							to={`${PROFILE}/${post.creator.$id}`}
+							to={`${PROFILE}/${post?.creator?.$id}`}
 							size='sm'
 						>
-							{post.creator.name}
+							{post?.creator?.name}
 						</ProfileCard.Name>
 					</ProfileCard>
 				)}

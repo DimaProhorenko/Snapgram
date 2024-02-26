@@ -10,7 +10,7 @@ import { GridPostsList } from '@/components/posts';
 
 const Explore = () => {
 	const [searchValue, setSearchValue] = useState('');
-	// const debouncedValue = useDebounce(searchValue, 500);
+	const debouncedValue = useDebounce(searchValue, 500);
 
 	const {
 		data,
@@ -18,12 +18,14 @@ const Explore = () => {
 		hasNextPage,
 		isPending: isInfiniteLoading,
 	} = useGetInfinitePosts();
-	// const { data: searchedPosts } = useSearchPosts(debouncedValue);
-	// console.log(searchedPosts);
+	const { data: searchResult, isFetching: isSearchingPosts } =
+		useSearchPosts(debouncedValue);
 
 	const posts = data?.pages[0]?.documents;
+	const searchedPosts = searchResult?.documents;
 
-	console.log(posts);
+	const shouldShowSearchResults = searchValue !== '';
+	const shouldShowFeaturedResults = !searchValue;
 
 	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchValue(e.target.value);
@@ -54,10 +56,15 @@ const Explore = () => {
 				</div>
 
 				<div>
-					{isInfiniteLoading && <Loader />}
-					{!isInfiniteLoading && posts && (
-						<GridPostsList posts={posts} />
-					)}
+					{(isInfiniteLoading || isSearchingPosts) && <Loader />}
+					{!isInfiniteLoading &&
+						!shouldShowSearchResults &&
+						posts && <GridPostsList posts={posts} />}
+					{!isSearchingPosts &&
+						shouldShowSearchResults &&
+						searchedPosts && (
+							<GridPostsList posts={searchedPosts} />
+						)}
 				</div>
 			</div>
 		</div>

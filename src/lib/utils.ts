@@ -5,29 +5,48 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
-export function formatDate(dateString: string): string {
+export function formatDateString(dateString: string) {
+	const options: Intl.DateTimeFormatOptions = {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric',
+	};
+
 	const date = new Date(dateString);
-	const now = new Date();
+	const formattedDate = date.toLocaleDateString('en-US', options);
 
-	const diff = Math.abs(now.getTime() - date.getTime());
-	const seconds = Math.floor(diff / 1000);
-	const minutes = Math.floor(seconds / 60);
-	const hours = Math.floor(minutes / 60);
-	const days = Math.floor(hours / 24);
-	const months = Math.floor(days / 30);
+	const time = date.toLocaleTimeString([], {
+		hour: 'numeric',
+		minute: '2-digit',
+	});
 
-	if (months > 0) {
-		return date.toISOString().slice(0, 10);
-	} else {
-		if (days > 0) {
-			return `${convertToPlural(days, 'day')} ago`;
-		} else if (hours > 0) {
-			return `${convertToPlural(hours, 'hour')} ago`;
-		} else if (minutes > 0) {
-			return `${convertToPlural(minutes, 'minute')} ago`;
-		} else {
+	return `${formattedDate} at ${time}`;
+}
+
+export function formatDate(timestamp: string): string {
+	const timestampNum = Math.round(new Date(timestamp).getTime() / 1000);
+	const date: Date = new Date(timestampNum * 1000);
+	const now: Date = new Date();
+
+	const diff: number = now.getTime() - date.getTime();
+	const diffInSeconds: number = diff / 1000;
+	const diffInMinutes: number = diffInSeconds / 60;
+	const diffInHours: number = diffInMinutes / 60;
+	const diffInDays: number = diffInHours / 24;
+
+	switch (true) {
+		case Math.floor(diffInDays) >= 30:
+			return formatDateString(timestamp);
+		case Math.floor(diffInDays) === 1:
+			return `${Math.floor(diffInDays)} day ago`;
+		case Math.floor(diffInDays) > 1 && diffInDays < 30:
+			return `${Math.floor(diffInDays)} days ago`;
+		case Math.floor(diffInHours) >= 1:
+			return `${Math.floor(diffInHours)} hours ago`;
+		case Math.floor(diffInMinutes) >= 1:
+			return `${Math.floor(diffInMinutes)} minutes ago`;
+		default:
 			return 'Just now';
-		}
 	}
 }
 
