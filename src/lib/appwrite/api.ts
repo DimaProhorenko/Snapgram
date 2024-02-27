@@ -390,7 +390,6 @@ export const getInfinitePosts = async ({
 }: {
 	pageParam: string;
 }) => {
-	console.log('pageParam', pageParam);
 	const queries = [Query.orderDesc('$updatedAt'), Query.limit(9)];
 
 	if (pageParam) {
