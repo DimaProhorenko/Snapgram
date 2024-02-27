@@ -1,10 +1,4 @@
-import { motion } from 'framer-motion';
-
-type IVariant = {
-	initial: object;
-	animate: object;
-	exit: object;
-};
+import { Variants, motion } from 'framer-motion';
 
 type PageProps = {
 	children: React.ReactNode;
@@ -29,7 +23,7 @@ const opacity = {
 };
 
 const Page = ({ children }: PageProps) => {
-	const anim = (variants) => {
+	const anim = (variants: Variants) => {
 		return {
 			initial: 'initial',
 			animate: 'enter',
