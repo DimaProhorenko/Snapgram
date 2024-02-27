@@ -1,4 +1,10 @@
+import Page from '@/components/routes/Page';
+
 const UpdateProfile = () => {
-	return <div>UpdateProfile</div>;
+	return (
+		<Page>
+			<div>UpdateProfile</div>
+		</Page>
+	);
 };
 export default UpdateProfile;

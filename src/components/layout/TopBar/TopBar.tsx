@@ -30,7 +30,7 @@ const TopBar = () => {
 					<Link to={`${PROFILE}/${id}`}>
 						<ProfileImage profileImageUrl={imageUrl} />
 					</Link>
-					<Button onClick={() => signout()}>
+					<Button onClick={() => signout()} size='icon'>
 						<img
 							src='assets/icons/logout.svg'
 							alt='logout'

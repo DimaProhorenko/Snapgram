@@ -38,6 +38,10 @@ const Page = ({ children }: PageProps) => {
 		};
 	};
 
-	return <motion.div {...anim(opacity)}>{children}</motion.div>;
+	return (
+		<motion.div {...anim(opacity)} className='w-full'>
+			{children}
+		</motion.div>
+	);
 };
 export default Page;

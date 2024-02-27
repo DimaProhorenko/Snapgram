@@ -1,4 +1,10 @@
+import Page from '@/components/routes/Page';
+
 const Profile = () => {
-	return <div>Profile</div>;
+	return (
+		<Page>
+			<div>Profile</div>
+		</Page>
+	);
 };
 export default Profile;
