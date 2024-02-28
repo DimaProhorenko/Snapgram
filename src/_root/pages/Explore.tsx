@@ -10,6 +10,7 @@ import { GridPostsList } from '@/components/posts';
 import { SearchResult } from '@/components/Search';
 import { useInView } from 'react-intersection-observer';
 import Page from '@/components/routes/Page';
+import { AnimatePresence } from 'framer-motion';
 
 const Explore = () => {
 	const [searchValue, setSearchValue] = useState('');
@@ -67,15 +68,27 @@ const Explore = () => {
 					</div>
 
 					<div>
-						{(isInfiniteLoading || isSearchingPosts) && <Loader />}
-						{!isInfiniteLoading &&
-							shouldShowFeaturedResults &&
-							posts && <GridPostsList posts={posts} />}
-						{!isSearchingPosts &&
-							shouldShowSearchResults &&
-							searchedPosts && (
-								<SearchResult posts={searchedPosts} />
+						<AnimatePresence mode='wait'>
+							{(isInfiniteLoading || isSearchingPosts) && (
+								<Loader />
 							)}
+							{!isInfiniteLoading &&
+								shouldShowFeaturedResults &&
+								posts && (
+									<GridPostsList
+										posts={posts}
+										key='featured'
+									/>
+								)}
+							{!isSearchingPosts &&
+								shouldShowSearchResults &&
+								searchedPosts && (
+									<SearchResult
+										posts={searchedPosts}
+										key='search'
+									/>
+								)}
+						</AnimatePresence>
 					</div>
 				</div>
 

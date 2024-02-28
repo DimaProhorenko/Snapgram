@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Models } from 'appwrite';
 import { POST, PROFILE, UPDATE_POST } from '@/constants/routes';
 import { ProfileCard } from '../profile';
@@ -5,6 +6,7 @@ import { formatDate } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '@/context/AuthContext';
 import { PostStats } from '.';
+import { anim, slide } from '@/lib/animation';
 
 type PostItemProps = {
 	post: Models.Document;
@@ -25,7 +27,7 @@ const PostItem = ({ post }: PostItemProps) => {
 	const profileLink = `${PROFILE}/${creatorId}`;
 
 	return (
-		<div className='post-card'>
+		<motion.div {...anim(slide)} className='post-card'>
 			<div className='flex justify-between items-center'>
 				<ProfileCard>
 					<ProfileCard.Image
@@ -82,7 +84,7 @@ const PostItem = ({ post }: PostItemProps) => {
 				</Link>
 				<PostStats post={post} userId={accountId} />
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 export default PostItem;
