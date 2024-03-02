@@ -18,7 +18,7 @@ const Profile = ({
 	return (
 		<ProfileCard>
 			<ProfileCard.Image
-				profileImageUrl={profileImageSrc}
+				profileImageUrl={profileImageSrc || 'assets/images/profile.png'}
 				alt={`Go to ${name} profile`}
 				to={to}
 				width={profileImageSize}

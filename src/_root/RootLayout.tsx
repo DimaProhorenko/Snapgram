@@ -7,7 +7,7 @@ const RootLayout = () => {
 		<div className='w-full md:flex max-w-[1440px]'>
 			<TopBar />
 			<LeftSidebar />
-			<section className='flex flex-1'>
+			<section className='flex flex-1 min-h-screen'>
 				<Outlet />
 			</section>
 			<BottomBar />

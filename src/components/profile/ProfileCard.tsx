@@ -10,7 +10,7 @@ type ProfileCardProps = {
 type ProfileImageProps = {
 	profileImageUrl: string;
 	alt: string;
-	to: string;
+	to?: string;
 	className?: string;
 	width?: number;
 	height?: number;
@@ -23,14 +23,14 @@ type ProfileCardContentProps = {
 
 type ProfileCardNameProps = {
 	children: React.ReactNode;
-	to: string;
+	to?: string;
 	className?: string;
-	size?: 'default' | 'sm';
+	size?: 'default' | 'sm' | 'lg' | 'xl';
 };
 
 type ProfileCardUsernameProps = {
 	children: React.ReactNode;
-	to: string;
+	to?: string;
 	className?: string;
 	size?: 'default' | 'sm';
 };
@@ -51,12 +51,12 @@ const ProfileCard = ({
 ProfileCard.Image = function ProfileCardImage({
 	profileImageUrl,
 	alt,
-	to,
+	to = '',
 	className = '',
 	width = 28,
 	height = 28,
 }: ProfileImageProps) {
-	return (
+	return to ? (
 		<Link to={to} className='flex-shrink-0 block'>
 			<img
 				src={profileImageUrl || 'assets/images/profile-placeholder.svg'}
@@ -66,6 +66,14 @@ ProfileCard.Image = function ProfileCardImage({
 				height={height}
 			/>
 		</Link>
+	) : (
+		<img
+			src={profileImageUrl || 'assets/images/profile-placeholder.svg'}
+			alt={alt}
+			className={`rounded-full ${className}`}
+			width={width}
+			height={height}
+		/>
 	);
 };
 
@@ -78,25 +86,29 @@ ProfileCard.Content = function ProfileCardContent({
 
 ProfileCard.Name = function ProfileCardName({
 	children,
-	to,
+	to = '',
 	size = 'default',
 	className = '',
 }: ProfileCardNameProps) {
 	const classes = clsx({
 		'text-sm md:text-xs font-medium': size === 'sm',
 		'text-base md:text-lg font-bold': size === 'default',
+		'text-lg md:text-xl font-bold': size === 'lg',
+		'text-xl md:text-2xl font-bold': size === 'xl',
 		[className]: className,
 	});
-	return (
+	return to ? (
 		<Link to={to}>
 			<h4 className={classes}>{children}</h4>
 		</Link>
+	) : (
+		<h4 className={classes}>{children}</h4>
 	);
 };
 
 ProfileCard.Username = function ProfileCardUsername({
 	children,
-	to,
+	to = '',
 	size = 'default',
 	className = '',
 }: ProfileCardUsernameProps) {
@@ -105,10 +117,12 @@ ProfileCard.Username = function ProfileCardUsername({
 		'text-[12px]': size === 'sm',
 		[className]: className,
 	});
-	return (
+	return to ? (
 		<Link to={to}>
 			<p className={classes}>@{children}</p>
 		</Link>
+	) : (
+		<p className={classes}>@{children}</p>
 	);
 };
 

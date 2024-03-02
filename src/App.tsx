@@ -9,7 +9,7 @@ import {
 	Home,
 	LikedPosts,
 	PostDetails,
-	Profile,
+	ProfilePage,
 	Saved,
 	UpdatePost,
 	UpdateProfile,
@@ -54,7 +54,7 @@ const App = () => {
 						<Route path={ALL_USERS} element={<AllUsers />} />
 						<Route path={SAVED} element={<Saved />} />
 						<Route path={CREATE_POST} element={<CreatePost />} />
-						<Route path={PROFILE_FULL} element={<Profile />} />
+						<Route path={PROFILE_FULL} element={<ProfilePage />} />
 						<Route
 							path={UPDATE_PROFILE_FULL}
 							element={<UpdateProfile />}
