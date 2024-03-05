@@ -1,15 +1,11 @@
-import { GridPostsList } from '@/components/posts';
-import { ProfileCard, UserProfile } from '@/components/profile';
+import { CreatorProfile, ProfileCard, UserProfile } from '@/components/profile';
 import Page from '@/components/routes/Page';
-import { Loader } from '@/components/shared';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUserContext } from '@/context/AuthContext';
 import {
 	useGetPostsByUserId,
 	useGetSavedPosts,
 	useGetUserById,
 } from '@/lib/react-query/queriesAndMutations';
-import { TabsContent } from '@radix-ui/react-tabs';
 import { Models } from 'appwrite';
 import { useParams } from 'react-router-dom';
 
@@ -24,7 +20,7 @@ const ProfilePage = () => {
 	);
 	const { data, isLoading: isSavedLoading } = useGetSavedPosts(userId);
 
-	const savedPosts = data?.documents?.map(
+	const savedPosts: Models.Document[] | undefined = data?.documents?.map(
 		(item: Models.Document) => item?.post
 	);
 
@@ -49,31 +45,13 @@ const ProfilePage = () => {
 					</ProfileCard>
 				)}
 
-				{id === userId && (
-					<div>
-						<Tabs defaultValue='posts' className='py-4'>
-							<TabsList className='mb-4'>
-								<TabsTrigger value='posts'>
-									Your posts
-								</TabsTrigger>
-								<TabsTrigger value='liked'>
-									Saved posts
-								</TabsTrigger>
-							</TabsList>
-							<TabsContent value='posts'>
-								{isPostLoading && <Loader />}
-								{posts && (
-									<GridPostsList posts={posts.documents} />
-								)}
-							</TabsContent>
-							<TabsContent value='liked'>
-								{isSavedLoading && <Loader />}
-								{savedPosts && (
-									<GridPostsList posts={savedPosts} />
-								)}
-							</TabsContent>
-						</Tabs>
-					</div>
+				{id === userId && posts && (
+					<CreatorProfile
+						creatorPosts={posts?.documents}
+						savedPosts={savedPosts || []}
+						isCreatorPostsLoading={isPostLoading}
+						isSavedPostsLoading={isSavedLoading}
+					/>
 				)}
 
 				{id !== userId && posts && (
