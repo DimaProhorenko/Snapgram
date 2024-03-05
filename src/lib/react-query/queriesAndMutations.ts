@@ -18,6 +18,7 @@ import {
 	getPostsByUserId,
 	getRecentPosts,
 	getSavedPosts,
+	getUserById,
 	getUserLikedPosts,
 	likePost,
 	logoutAccount,
@@ -60,6 +61,13 @@ export const useGetAllUsers = () => {
 	return useQuery({
 		queryKey: [],
 		queryFn: getAllUsers,
+	});
+};
+
+export const useGetUserById = (id: string) => {
+	return useQuery({
+		queryKey: [],
+		queryFn: () => getUserById(id),
 	});
 };
 

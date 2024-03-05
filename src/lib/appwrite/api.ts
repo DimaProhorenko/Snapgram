@@ -163,6 +163,22 @@ export const getAllUsers = async () => {
 	}
 };
 
+export const getUserById = async (id: string) => {
+	try {
+		const user = await databases.getDocument(
+			appwriteConfig.databaseId,
+			appwriteConfig.userCollectionId,
+			id
+		);
+		if (!user) {
+			throw new Error('Could not load the user');
+		}
+		return user;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 // POSTS
 export const createPost = async ({
 	userId,
