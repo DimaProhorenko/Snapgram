@@ -1,14 +1,20 @@
 import { useState, useCallback } from 'react';
 import { FileWithPath, useDropzone } from 'react-dropzone';
 import { Button } from '../ui/button';
+import clsx from 'clsx';
 
 type FileUploderType = {
 	mediaUrl: string;
 	// eslint-disable-next-line no-unused-vars
 	changeField: (arg: FileWithPath[]) => void;
+	imageSize?: 'circle' | 'default';
 };
 
-const FileUploder = ({ mediaUrl, changeField }: FileUploderType) => {
+const FileUploder = ({
+	mediaUrl,
+	changeField,
+	imageSize = 'default',
+}: FileUploderType) => {
 	const [file, setFile] = useState<File[]>([]);
 	const [fileUrl, setFileUrl] = useState(mediaUrl);
 
@@ -28,6 +34,11 @@ const FileUploder = ({ mediaUrl, changeField }: FileUploderType) => {
 			'image/*': ['.png', '.jpg', '.jpeg', '.svg'],
 		},
 	});
+
+	const imageClasses = clsx({
+		'file_uploader-img': imageSize === 'default',
+		'w-24 h-24 rounded-full': imageSize === 'circle',
+	});
 	return (
 		<div
 			{...getRootProps()}
@@ -40,7 +51,7 @@ const FileUploder = ({ mediaUrl, changeField }: FileUploderType) => {
 						<img
 							src={fileUrl}
 							alt='image'
-							className='file_uploader-img'
+							className={imageClasses}
 						/>
 					</div>
 					<p className='file_uploader-label'>

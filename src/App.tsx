@@ -39,9 +39,6 @@ const App = () => {
 		<>
 			<AnimatePresence mode='wait'>
 				<Routes location={location} key={location.pathname}>
-					{/* <Route index element={<Home />} />
-					<Route path='/explore' element={<Explore />} /> */}
-
 					<Route element={<AuthLayout />}>
 						<Route path={SIGNIN} element={<SigninForm />} />
 						<Route path={SIGNUP} element={<SignupForm />} />

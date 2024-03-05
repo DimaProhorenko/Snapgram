@@ -4,6 +4,7 @@ import { Loader } from '../shared';
 import { Tabs, TabsList, TabsContent, TabsTrigger } from '../ui/tabs';
 import { Link } from 'react-router-dom';
 import { UPDATE_PROFILE } from '@/constants/routes';
+import { useUserContext } from '@/context/AuthContext';
 
 type CreatorProfileProps = {
 	creatorPosts: Models.Document[];
@@ -18,10 +19,11 @@ const CreatorProfile = ({
 	isCreatorPostsLoading,
 	isSavedPostsLoading,
 }: CreatorProfileProps) => {
+	const { user: id } = useUserContext();
 	return (
 		<div>
 			<Link
-				to={UPDATE_PROFILE}
+				to={`${UPDATE_PROFILE}/${id}`}
 				className='text-purple-500 hover:text-purple-600 transition-colors'
 			>
 				Update your profile
