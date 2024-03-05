@@ -1,3 +1,4 @@
+import { Loader } from '.';
 import { Button } from '../ui/button';
 
 type IconButtonProps = {
@@ -6,6 +7,7 @@ type IconButtonProps = {
 	onClick: () => void;
 	width?: number;
 	height?: number;
+	showLoader?: boolean;
 };
 
 const IconButton = ({
@@ -14,10 +16,15 @@ const IconButton = ({
 	onClick,
 	width = 24,
 	height = 24,
+	showLoader = false,
 }: IconButtonProps) => {
 	return (
 		<Button onClick={onClick} size='icon'>
-			<img src={src} alt={alt} width={width} height={height} />
+			{showLoader ? (
+				<Loader />
+			) : (
+				<img src={src} alt={alt} width={width} height={height} />
+			)}
 		</Button>
 	);
 };

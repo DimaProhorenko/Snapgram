@@ -7,7 +7,6 @@ import { useUserContext } from '@/context/AuthContext';
 import {
 	useGetPostsByUserId,
 	useGetSavedPosts,
-	useGetUserLikedPosts,
 } from '@/lib/react-query/queriesAndMutations';
 import { TabsContent } from '@radix-ui/react-tabs';
 import { Models } from 'appwrite';
@@ -18,8 +17,6 @@ const ProfilePage = () => {
 	} = useUserContext();
 	const { data: posts, isLoading: isPostLoading } =
 		useGetPostsByUserId(userId);
-	const { data: likedPosts, isLoading: isLikedLoading } =
-		useGetUserLikedPosts(userId);
 
 	const { data, isLoading: isSavedLoading } = useGetSavedPosts(userId);
 

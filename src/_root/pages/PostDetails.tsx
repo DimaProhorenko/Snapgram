@@ -1,17 +1,22 @@
 import { PostProfileCard, PostStats } from '@/components/posts';
 import Page from '@/components/routes/Page';
 import { IconButton, Loader } from '@/components/shared';
-import { PROFILE, UPDATE_POST } from '@/constants/routes';
+import { HOME, PROFILE, UPDATE_POST } from '@/constants/routes';
 import { useUserContext } from '@/context/AuthContext';
-import { useGetPostById } from '@/lib/react-query/queriesAndMutations';
-import { Link, useParams } from 'react-router-dom';
+import {
+	useDeletePost,
+	useGetPostById,
+} from '@/lib/react-query/queriesAndMutations';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const PostDetails = () => {
 	const { id } = useParams();
+	const navigate = useNavigate();
 	const { data: post, isPending: isPostLoading } = useGetPostById(id || '');
 	const {
 		user: { id: userId },
 	} = useUserContext();
+	const { mutateAsync: deletePost, isPending } = useDeletePost();
 	console.log(post);
 	return (
 		<Page>
@@ -49,7 +54,16 @@ const PostDetails = () => {
 										<IconButton
 											src='/assets/icons/delete.svg'
 											alt='Delete post'
-											onClick={() => {}}
+											showLoader={isPending}
+											onClick={async () => {
+												const res = await deletePost({
+													postId: post?.$id,
+													imageId: post?.imageId,
+												});
+												if (res?.status === 'ok') {
+													navigate(HOME);
+												}
+											}}
 										/>
 									</div>
 								)}

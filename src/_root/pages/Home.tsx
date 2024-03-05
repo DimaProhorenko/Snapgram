@@ -5,7 +5,7 @@ import { Loader } from '@/components/shared';
 import { useGetRecentPosts } from '@/lib/react-query/queriesAndMutations';
 
 const Home = () => {
-	const { data: posts, isPending: isPostLoading } = useGetRecentPosts();
+	const { data: posts, isFetching: isPostLoading } = useGetRecentPosts();
 	return (
 		<Page>
 			<div className='flex flex-1'>

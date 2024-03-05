@@ -366,7 +366,7 @@ export const updatePost = async (post: IUpdatePost) => {
 };
 
 export const deletePost = async (postId: string, imageId: string) => {
-	if (!postId || imageId) {
+	if (!postId || !imageId) {
 		throw new Error('Something went wrong');
 	}
 
