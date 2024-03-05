@@ -446,3 +446,36 @@ export const getSavedPosts = async (userId: string) => {
 		console.log(err);
 	}
 };
+
+export const getPostsByUserId = async (userId: string) => {
+	try {
+		const posts = await databases.listDocuments(
+			appwriteConfig.databaseId,
+			appwriteConfig.postsCollectionId,
+			[Query.equal('creator', userId)]
+		);
+
+		if (!posts) {
+			throw new Error('Could not fetch posts');
+		}
+		return posts;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getUserLikedPosts = async (userId: string) => {
+	try {
+		const posts = await databases.listDocuments(
+			appwriteConfig.databaseId,
+			appwriteConfig.postsCollectionId,
+			[Query.search('likes', userId)]
+		);
+		if (!posts) {
+			throw new Error('Could not fint liked posts');
+		}
+		return posts;
+	} catch (err) {
+		console.log(err);
+	}
+};
