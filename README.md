@@ -29,6 +29,7 @@
 -   React.js
 -   Appwrite
 -   React Query
+    import { useUserContext } from '@/context/AuthContext';
 -   TypeScript
 -   Shadcn
 -   Tailwind CSS
@@ -37,6 +38,8 @@
 
 👉 **Backend as a Service (BaaS) - Appwrite**: Utilized Appwrite as a Backend solution  
 👉 **Authentication System**: A robust authentication system ensuring security and user privacy  
+👉 **Profile Page**: A user profile page showcasing liked posts and providing options to edit the profile  
+👉 **Browse Other Users**: Allow users to browse and explore other users' profiles and posts  
 👉 **React Query Integration**: Incorporated the React Query library for, Auto caching to enhance performance  
 👉 **Create Post Page**: Implementdc a create post page with effortless file management, storage, and drag-drop feature  
 👉 **Edit Post Functionality**: Ability to edit the content of posts at any time  
