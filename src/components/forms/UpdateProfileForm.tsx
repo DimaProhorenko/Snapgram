@@ -11,13 +11,20 @@ import {
 	FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import { FileUploder } from '../shared';
+import { FileUploder, Loader } from '../shared';
 import { Button } from '../ui/button';
+import { useUpdateUser } from '@/lib/react-query/queriesAndMutations';
+import { ID } from 'appwrite';
+import { useNavigate } from 'react-router-dom';
+import { HOME } from '@/constants/routes';
 
 const UpdateProfileForm = () => {
 	const {
-		user: { username, name, imageUrl },
+		user: { id, username, name, imageUrl },
 	} = useUserContext();
+	const { mutateAsync: updateUser, isPending: isUpdatingUser } =
+		useUpdateUser();
+	const navigate = useNavigate();
 	const form = useForm<z.infer<typeof UpdateProfileValidationSchema>>({
 		defaultValues: {
 			name,
@@ -26,10 +33,22 @@ const UpdateProfileForm = () => {
 		},
 	});
 
-	const onSubmit = (
+	const onSubmit = async (
 		values: z.infer<typeof UpdateProfileValidationSchema>
 	) => {
 		console.log(values);
+		const res = await updateUser({
+			userId: id,
+			name: values.name,
+			username: values.username,
+			bio: '',
+			imageId: ID.unique(),
+			imageUrl: '',
+			file: values.file,
+		});
+		if (res) {
+			navigate(HOME);
+		}
 	};
 
 	return (
@@ -89,7 +108,7 @@ const UpdateProfileForm = () => {
 					)}
 				/>
 				<Button className='bg-primary-500 hover:bg-primary-600 transition-colors mt-8 block '>
-					Save updates
+					{isUpdatingUser ? <Loader /> : 'Save updates'}
 				</Button>
 			</form>
 		</Form>

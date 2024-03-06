@@ -1,6 +1,6 @@
 import { ID, Query } from 'appwrite';
 
-import { INewPost, INewUser, IUpdatePost } from '@/types';
+import { INewPost, INewUser, IUpdatePost, IUpdateUser } from '@/types';
 import { account, appwriteConfig, databases, storage } from './config';
 import { avatar } from './config';
 
@@ -174,6 +174,48 @@ export const getUserById = async (id: string) => {
 			throw new Error('Could not load the user');
 		}
 		return user;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const updateUser = async ({
+	userId,
+	name,
+	username,
+	bio,
+	file,
+	imageId,
+}: IUpdateUser) => {
+	try {
+		const uploadedImage = await uploadFile(file[0]);
+		if (!uploadedImage) {
+			throw new Error('Could not upload the file');
+		}
+
+		const imageFileUrl = await getFilePreview(uploadedImage.$id);
+
+		if (!imageFileUrl) {
+			await deleteFile(uploadedImage.$id);
+			throw new Error('Image was not found');
+		}
+
+		const updateNameResult = await account.updateName(name);
+
+		if (!updateNameResult) {
+			throw new Error('Could not update name');
+		}
+		const updateRes = await databases.updateDocument(
+			appwriteConfig.databaseId,
+			appwriteConfig.userCollectionId,
+			userId,
+			{ name, username, bio, imageId, imageUrl: imageFileUrl }
+		);
+
+		if (!updateRes) {
+			throw new Error('Could not update profile');
+		}
+		return updateRes;
 	} catch (err) {
 		console.log(err);
 	}

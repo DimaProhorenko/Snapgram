@@ -19,7 +19,9 @@ const CreatorProfile = ({
 	isCreatorPostsLoading,
 	isSavedPostsLoading,
 }: CreatorProfileProps) => {
-	const { user: id } = useUserContext();
+	const {
+		user: { id },
+	} = useUserContext();
 	return (
 		<div>
 			<Link

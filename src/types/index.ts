@@ -19,6 +19,7 @@ export type IContextType = {
 export type IUpdateUser = {
 	userId: string;
 	name: string;
+	username: string;
 	bio: string;
 	imageId: string;
 	imageUrl: URL | string;

@@ -26,6 +26,7 @@ import {
 	searchPostByCaption,
 	signInAccount,
 	updatePost,
+	updateUser,
 } from '../appwrite/api';
 import { QUERY_KEYS } from './queryKeys';
 
@@ -68,6 +69,19 @@ export const useGetUserById = (id: string) => {
 	return useQuery({
 		queryKey: [],
 		queryFn: () => getUserById(id),
+	});
+};
+
+export const useUpdateUser = () => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: updateUser,
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+			});
+		},
 	});
 };
 
